@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="msg" />
+      <button id="btn">发送</button>
+    </div>
+
+    <script type="module">
+      // 引入 Socket.IO 模块
+      import { io } from 'https://cdn.socket.io/4.6.1/socket.io.esm.min.js';
+
+      // 初始化
+      const socket = io('http://127.0.0.1:3000');
+
+      // 监听连接成功事件
+      socket.on('connect', (a) => {
+        alert('连接成功');
+      });
+
+      // 监听“服务端响应消息”事件
+      socket.on('rspmsg', (msg) => {
+        alert(`服务端响应：“${msg}”`);
+      });
+
+      // 发送消息
+      document.getElementById('btn').addEventListener('click', () => {
+        const msg = document.getElementById('msg').value;
+        socket.emit('sendmsg', msg);
+      });
+    </script>
+  </body>
+</html>
